@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abenteuer Marsflug</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="top-bar">
+            <div class="container top-bar-content">
+                <span>toonies</span>
+                <a href="#">mytoonies</a>
+                <a href="#">Support</a>
+                <a href="#">Händler</a>
+                <a href="#">📍 Region ändern</a>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container nav-content">
+                <div class="logo">
+                    <img src="placeholder-logo.png" alt="toonies Logo">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Tooniebox</a></li>
+                    <li><a href="#" class="active">Toonies</a></li>
+                    <li><a href="#">Audio Content</a></li>
+                    <li><a href="#">Zubehör</a></li>
+                    <li><a href="#">Bundles <span class="sale-badge">%</span></a></li>
+                </ul>
+                <div class="nav-icons">
+                    <span>🔍</span>
+                    <span>♡</span>
+                    <span>🛒</span>
+                    <span>👤</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container main-content">
+        <div class="breadcrumbs">
+            <a href="#">Alle Produkte</a> >
+            <a href="#">toonies</a> >
+            <span>Bildung</span>
+        </div>
+
+        <div class="product-container">
+            <div class="image-gallery">
+                <div class="thumbnails">
+                    <img src="placeholder-thumb1.jpg" alt="Die Unglaublichen Thumbnail 1">
+                    <img src="placeholder-thumb2.jpg" alt="Die Unglaublichen Thumbnail 2">
+                    <img src="placeholder-thumb3.jpg" alt="Die Unglaublichen Thumbnail 3">
+                 </div>
+                <div class="main-image">
+                    <img src="placeholder-main.jpg" alt="Die Unglaublichen toonie Figur Hauptansicht">
+                </div>
+            </div>
+
+            <div class="product-details">
+                <button class="wishlist-button">♡</button>
+                <h1>Abenteuer Marsflug</h1>
+                <h2>Bildung</h2>
+
+                <div class="rating">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-value">5.0 (27)</span>
+                    <a href="#" class="review-link">Produkt bewerten</a>
+                </div>
+
+                <div class="audio-preview">
+                    <button class="play-button" onclick="document.getElementById('audioPlayer').play()">▶ Hörprobe</button>
+                    <audio id="audioPlayer" src="hoerprobe.mp3"></audio>
+                </div>
+
+                <span class="product-tag">Hörspiel</span>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="purchase-bar">
+        <div class="container purchase-content">
+            <div class="price">
+                <span class="original-price">14,20 €</span>
+                <span class="current-price">6,90 €</span>
+                <span class="vat-info">inkl. MwSt.</span>
+            </div>
+            <button class="add-to-cart-button">IN DEN WARENKORB 🛒</button>
+        </div>
+    </footer>
+
+</body>
+</html>
