@@ -11,8 +11,8 @@
     <header class="site-header">
         <div class="top-bar">
             <div class="container top-bar-content">
-                <span>toonies</span>
-                <a href="#">mytoonies</a>
+                <span>marsies</span>
+                <a href="#">mymarsies</a>
                 <a href="#">Support</a>
                 <a href="#">Händler</a>
                 <a href="#">📍 Region ändern</a>
@@ -24,8 +24,8 @@
                     <img src="placeholder-logo.png" alt="toonies Logo">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#">Tooniebox</a></li>
-                    <li><a href="#" class="active">Toonies</a></li>
+                    <li><a href="#">Marsiebox</a></li>
+                    <li><a href="#" class="active">Marsies</a></li>
                     <li><a href="#">Audio Content</a></li>
                     <li><a href="#">Zubehör</a></li>
                     <li><a href="#">Bundles <span class="sale-badge">%</span></a></li>
@@ -43,21 +43,24 @@
     <main class="container main-content">
         <div class="breadcrumbs">
             <a href="#">Alle Produkte</a> >
-            <a href="#">toonies</a> >
-            <span>Bildung</span>
+            <a href="#">Marsies</a> >
+            <span>1. Reihe</span>
         </div>
 
         <div class="product-container">
             <div class="image-gallery">
                 <div class="thumbnails">
-                    <img src="placeholder-thumb1.jpg" alt="Die Unglaublichen Thumbnail 1">
-                    <img src="placeholder-thumb2.jpg" alt="Die Unglaublichen Thumbnail 2">
-                    <img src="placeholder-thumb3.jpg" alt="Die Unglaublichen Thumbnail 3">
+                    <!-- Added data-main-src and more specific alt text -->
+                    <img src="placeholder-image1.jpg" alt="Abenteuer Marsflug Thumbnail 1" data-main-src="placeholder-main1.jpg" class="active-thumbnail">
+                    <img src="placeholder-image2.jpg" alt="Abenteuer Marsflug Thumbnail 2" data-main-src="placeholder-main2.jpg">
+                    <img src="placeholder-image3.jpg" alt="Abenteuer Marsflug Thumbnail 3" data-main-src="placeholder-main3.jpg">
                  </div>
                 <div class="main-image">
-                    <img src="placeholder-main.jpg" alt="Die Unglaublichen toonie Figur Hauptansicht">
+                    <!-- Start with the first main image -->
+                    <img src="placeholder-image1.jpg" alt="Abenteuer Marsflug Hauptansicht 1" id="productMainImage">
                 </div>
             </div>
+
 
             <div class="product-details">
                 <button class="wishlist-button">♡</button>
@@ -91,6 +94,40 @@
             <button class="add-to-cart-button">IN DEN WARENKORB 🛒</button>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnails = document.querySelectorAll('.thumbnails img');
+            const mainImage = document.getElementById('productMainImage');
+
+            // Set the initial alt text for the main image based on the first thumbnail
+            if (thumbnails.length > 0) {
+                mainImage.alt = thumbnails[0].alt.replace('Ansicht', 'Hauptansicht'); // Or adjust as needed
+            }
+
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Get the src directly from the clicked thumbnail
+                    const newImageSrc = this.src;
+                    // Use the alt text from the clicked thumbnail for the main image
+                    // Optionally modify it slightly for context
+                    const newImageAlt = this.alt.replace('Ansicht', 'Hauptansicht'); // Example modification
+
+                    // Update the main image's src and alt attributes
+                    mainImage.src = newImageSrc;
+                    mainImage.alt = newImageAlt;
+
+                    // --- Optional: Add visual feedback for the active thumbnail ---
+                    // 1. Remove the 'active-thumbnail' class from all thumbnails
+                    thumbnails.forEach(t => t.classList.remove('active-thumbnail'));
+                    // 2. Add the 'active-thumbnail' class to the clicked thumbnail
+                    this.classList.add('active-thumbnail');
+                });
+            });
+        });
+    </script>
+
 
 </body>
 </html>
