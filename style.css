@@ -420,3 +420,56 @@ button {
     opacity: 1;
     box-shadow: 0 0 5px rgba(232, 119, 46, 0.3); /* Optional glow */
 }
+
+.play-button {
+    /* Existing styles: */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1em;
+    color: #333;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, border-color 0.2s ease; /* Add transition */
+    cursor: pointer; /* Ensure cursor is pointer */
+
+    /* Required for particle positioning: */
+    position: relative; /* Allows absolute positioning of children */
+    overflow: hidden;   /* Keep particles inside button bounds (remove if you want them to fly outside) */
+    z-index: 1; /* Ensure button is above particles initially if needed */
+}
+
+/* Individual particle style - Bigger and Glow */
+.particle {
+    position: absolute;
+    width: 8px;        /* Increased size */
+    height: 8px;       /* Increased size */
+    background-color: var(--particle-color, #E8772E); /* Color set by JS */
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.9;      /* Start slightly more opaque */
+    pointer-events: none;
+    z-index: 0;
+    /* Add a glow effect using box-shadow */
+    box-shadow: 0 0 6px 1px var(--particle-color); /* Glow matching particle color */
+    /* Apply the animation - Longer duration */
+    animation: particle-burst 0.8s ease-out forwards; /* Increased duration */
+}
+
+/* Keyframe animation for the burst - Adjusted transform target */
+@keyframes particle-burst {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.9;
+    }
+    100% {
+        /* Target position set by JS, scaling down */
+        transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0);
+        opacity: 0;
+        box-shadow: 0 0 0px 0px var(--particle-color); /* Fade out glow */
+    }
+}
