@@ -51,13 +51,30 @@
             <div class="image-gallery">
                 <div class="thumbnails">
                     <!-- Added data-main-src and more specific alt text -->
-                    <img src="placeholder-image1.jpg" alt="Abenteuer Marsflug Thumbnail 1" data-main-src="placeholder-main1.jpg" class="active-thumbnail">
-                    <img src="placeholder-image2.jpg" alt="Abenteuer Marsflug Thumbnail 2" data-main-src="placeholder-main2.jpg">
-                    <img src="placeholder-image3.jpg" alt="Abenteuer Marsflug Thumbnail 3" data-main-src="placeholder-main3.jpg">
+                    <img src="placeholder-image1.jpg" alt="Abenteuer Marsflug Ansicht 1" data-type="image"> <!-- Initially NO active class here -->
+
+                    <!-- Image Thumbnail 2 -->
+                    <img src="placeholder-image2.jpg" alt="Abenteuer Marsflug Ansicht 2" data-type="image">
+                    <!-- Image Thumbnail 3 -->
+                    <img src="placeholder-image3.jpg" alt="Abenteuer Marsflug Ansicht 3" data-type="image">
+
+                    <!-- Video Thumbnail -->
+                    <video
+                        poster="placeholder-video-poster.jpg"
+                        alt="Abenteuer Marsflug Video Vorschau"
+                        muted loop playsinline preload="metadata"
+                        data-type="video"
+                        data-main-src="product-video.mp4" /* Path to FULL video */
+                        >
+                        Your browser does not support the video tag.
+                    </video>
+
                  </div>
-                <div class="main-image">
-                    <!-- Start with the first main image -->
-                    <img src="placeholder-image1.jpg" alt="Abenteuer Marsflug Hauptansicht 1" id="productMainImage">
+                <!-- Container for Main Display (Image or Video) -->
+                <!-- Start empty or with a placeholder loading state -->
+                <div class="main-image" id="mainDisplayArea">
+                   <!-- Content will be loaded by JavaScript -->
+                   <!-- Optional: <p>Loading...</p> -->
                 </div>
             </div>
 
@@ -97,33 +114,72 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const thumbnails = document.querySelectorAll('.thumbnails img');
-            const mainImage = document.getElementById('productMainImage');
+            // Select both image and video thumbnails
+            const thumbnails = document.querySelectorAll('.thumbnails img, .thumbnails video');
+            // Select the container where the main image/video will be displayed
+            const mainDisplay = document.getElementById('mainDisplayArea');
+            // Keep track of the original main image element (optional, could recreate)
+            const initialMainImage = document.getElementById('productMainImage');
 
-            // Set the initial alt text for the main image based on the first thumbnail
-            if (thumbnails.length > 0) {
-                mainImage.alt = thumbnails[0].alt.replace('Ansicht', 'Hauptansicht'); // Or adjust as needed
+            // --- Function to update the main display area ---
+            function updateMainDisplay(element) {
+                // Clear previous content
+                mainDisplay.innerHTML = '';
+
+                const elementType = element.dataset.type;
+                const altText = element.alt || 'Produktansicht'; // Get alt text
+
+                if (elementType === 'image') {
+                    const newImageSrc = element.src;
+                    const newImage = document.createElement('img');
+                    newImage.src = newImageSrc;
+                    // Modify alt text for main view if desired
+                    newImage.alt = altText.replace('Ansicht', 'Hauptansicht').replace('Vorschau', 'Hauptansicht');
+                    newImage.id = 'productMainImage'; // Re-assign ID if needed elsewhere
+                    mainDisplay.appendChild(newImage);
+
+                } else if (elementType === 'video') {
+                    const videoSrc = element.dataset.mainSrc; // Get the full video path
+                    const newVideo = document.createElement('video');
+                    newVideo.src = videoSrc;
+                    newVideo.controls = true; // IMPORTANT: Add video controls
+                    newVideo.autoplay = true; // Optional: attempt autoplay
+                    newVideo.muted = true; // Often required for autoplay
+                    newVideo.playsinline = true; // Good practice for mobile
+                    newVideo.alt = altText; // Use alt text (though not standard, can be useful)
+                    // Add an aria-label for better accessibility
+                    newVideo.setAttribute('aria-label', altText);
+                    mainDisplay.appendChild(newVideo);
+                }
+
+                // --- Update active thumbnail visual state ---
+                thumbnails.forEach(t => t.classList.remove('active-thumbnail'));
+                element.classList.add('active-thumbnail');
             }
 
+            // --- Set up initial state ---
+            // Add data-type to the initial image if not already present
+             if (initialMainImage && !initialMainImage.dataset.type) {
+                 // Find the corresponding thumbnail for the initial image
+                 const firstThumb = document.querySelector('.thumbnails img[src="' + initialMainImage.src + '"]');
+                 if (firstThumb) firstThumb.classList.add('active-thumbnail');
+                 // Ensure the initial main image itself has the data-type (though not strictly needed after this setup)
+                 // initialMainImage.dataset.type = 'image';
+             } else if (thumbnails.length > 0){
+                 // If initial image isn't set up, activate the very first thumbnail
+                  thumbnails[0].classList.add('active-thumbnail');
+                  updateMainDisplay(thumbnails[0]); // Show the first item
+             }
 
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function() {
-                    // Get the src directly from the clicked thumbnail
-                    const newImageSrc = this.src;
-                    // Use the alt text from the clicked thumbnail for the main image
-                    // Optionally modify it slightly for context
-                    const newImageAlt = this.alt.replace('Ansicht', 'Hauptansicht'); // Example modification
 
-                    // Update the main image's src and alt attributes
-                    mainImage.src = newImageSrc;
-                    mainImage.alt = newImageAlt;
-
-                    // --- Optional: Add visual feedback for the active thumbnail ---
-                    // 1. Remove the 'active-thumbnail' class from all thumbnails
-                    thumbnails.forEach(t => t.classList.remove('active-thumbnail'));
-                    // 2. Add the 'active-thumbnail' class to the clicked thumbnail
-                    this.classList.add('active-thumbnail');
+            // --- Attach click listeners to all thumbnails ---
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function() {
+                    updateMainDisplay(this); // 'this' refers to the clicked thumbnail (img or video)
                 });
+
+                // Optional: If using video thumbnails with src, pause others when one is clicked
+                // thumb.addEventListener('play', function() { ... });
             });
         });
     </script>

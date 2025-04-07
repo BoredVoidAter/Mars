@@ -208,6 +208,41 @@ button {
 }
 /* --- End Improved Thumbnail Styles --- */
 
+.thumbnails video {
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%; /* Fill the column width */
+    height: auto; /* Maintain aspect ratio based on width */
+    opacity: 0.65;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+    display: block; /* Ensure block display */
+    object-fit: cover; /* Cover the area, like background-size: cover */
+    background-color: #eee; /* Background while loading poster/video */
+}
+
+/* Hover effect for video */
+.thumbnails video:not(.active-thumbnail):hover {
+    opacity: 1;
+    border-color: #ccc;
+}
+
+/* Active state for video */
+.thumbnails video.active-thumbnail {
+    border-color: #E8772E; /* Theme Orange */
+    opacity: 1;
+    box-shadow: 0 0 5px rgba(232, 119, 46, 0.3);
+}
+
+/* Style for the main video player */
+#mainDisplayArea video {
+     max-width: 100%;
+     max-height: 550px; /* Same max-height as image */
+     height: auto;
+     display: block;
+     border-radius: 3px;
+}
+
 .main-image {
     flex-grow: 1;
     display: flex;
